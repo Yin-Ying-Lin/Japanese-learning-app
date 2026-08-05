@@ -1,588 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
 <meta charset="UTF-8">
-<title>日文學習教室</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="にほんご">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFF8ED">
+<title>にほんご べんきょう｜寶貝的日語教室</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg-1: #fff3e6;
-    --bg-2: #ffe3f1;
-    --bg-3: #e3f4ff;
-    --panel: #ffffff;
-    --ink: #5b4636;
-    --muted: #a68b78;
-    --pink: #ff8fab;
-    --pink-soft: #ffe0eb;
-    --blue: #5aa9e6;
-    --blue-soft: #dcefff;
-    --yellow: #ffb703;
-    --yellow-soft: #fff2d1;
-    --purple: #a06cd5;
-    --purple-soft: #efe1fb;
-    --green: #59a96a;
-    --green-soft: #e2f4e4;
-    --line: #ffd9e6;
+  :root{
+    --cream:#FFF8ED;
+    --cream-deep:#FBEFD9;
+    --ink:#4A4063;
+    --ink-soft:#7A6E8C;
+    --matcha:#7BA05B;
+    --matcha-dark:#5C8045;
+    --matcha-light:#CBE0B4;
+    --peach:#FF9B71;
+    --peach-dark:#E67E52;
+    --sun:#FFD166;
+    --sun-dark:#F0AE1F;
+    --pink:#FFB4B4;
+    --pink-dark:#EF8E8E;
+    --sky:#8ECDDD;
+    --sky-dark:#5CAEC2;
+    --plum:#9C7FB0;
+    --plum-dark:#7E5F94;
+    --nori:#3A3550;
+    --radius-lg:32px;
+    --radius-md:22px;
+    --shadow: 0 6px 0 rgba(74,64,99,0.18);
   }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: "Comic Sans MS", "Chalkboard SE", "Microsoft JhengHei", "PingFang TC", sans-serif;
-    background: linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
-    background-attachment: fixed;
-    color: var(--ink);
-    line-height: 1.7;
-    position: relative;
-    overflow-x: hidden;
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% 8%, rgba(255,209,102,0.35), transparent 40%),
+      radial-gradient(circle at 90% 15%, rgba(142,205,221,0.3), transparent 45%),
+      var(--cream);
+    font-family:'Zen Maru Gothic', 'Kosugi Maru', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    overflow-x:hidden;
+    padding-bottom:40px;
   }
-  body::before,
-  body::after {
-    content: "";
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(2px);
-    opacity: 0.5;
-    z-index: -1;
-  }
-  body::before {
-    width: 220px;
-    height: 220px;
-    background: var(--yellow-soft);
-    top: -60px;
-    right: -60px;
-  }
-  body::after {
-    width: 260px;
-    height: 260px;
-    background: var(--blue-soft);
-    bottom: -80px;
-    left: -80px;
-  }
-  .cloud {
-    position: fixed;
-    background: #ffffff;
-    opacity: 0.7;
-    border-radius: 50px;
-    z-index: -1;
-  }
-  .cloud::before,
-  .cloud::after {
-    content: "";
-    position: absolute;
-    background: #ffffff;
-    border-radius: 50%;
-  }
-  .cloud-a {
-    width: 90px; height: 34px;
-    top: 90px; left: 6%;
-  }
-  .cloud-a::before { width: 46px; height: 46px; top: -22px; left: 8px; }
-  .cloud-a::after { width: 34px; height: 34px; top: -16px; left: 44px; }
-  .cloud-b {
-    width: 70px; height: 26px;
-    top: 220px; right: 8%;
-  }
-  .cloud-b::before { width: 36px; height: 36px; top: -18px; left: 6px; }
-  .cloud-b::after { width: 26px; height: 26px; top: -12px; left: 36px; }
+  .jp{font-family:'Kosugi Maru','Zen Maru Gothic',sans-serif;}
+  .num{font-family:'Nunito',sans-serif;}
 
-  header {
-    padding: 44px 20px 20px;
-    text-align: center;
+  /* ---------- App shell ---------- */
+  .app{max-width:520px; margin:0 auto; padding:18px 16px 10px;}
+  header.top{
+    display:flex; align-items:center; gap:12px; padding:6px 4px 18px;
   }
-  .mascot {
-    width: 84px;
-    height: 84px;
-    margin: 0 auto 6px;
-    display: block;
-    animation: bob 3s ease-in-out infinite;
+  .mascot{width:64px;height:64px; flex-shrink:0; animation: bob 3.2s ease-in-out infinite;}
+  @keyframes bob{ 0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-6px) rotate(2deg);} }
+  .title-block h1{
+    font-family:'Kosugi Maru', sans-serif;
+    font-size:22px; margin:0; color:var(--ink); line-height:1.3;
   }
-  @keyframes bob {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50% { transform: translateY(-8px) rotate(2deg); }
+  .title-block p{margin:2px 0 0; font-size:13px; color:var(--ink-soft); font-weight:500;}
+
+  .star-badge{
+    margin-left:auto; display:flex; align-items:center; gap:5px;
+    background:#fff; border:2px solid var(--sun); border-radius:999px;
+    padding:6px 12px; font-family:'Nunito',sans-serif; font-weight:800; color:var(--sun-dark);
+    box-shadow:0 3px 0 rgba(240,174,31,0.35);
+    font-size:15px;
   }
-  header h1 {
-    font-size: 2.2rem;
-    margin: 4px 0 8px;
-    color: var(--pink);
-    text-shadow: 2px 2px 0 var(--yellow-soft);
-    letter-spacing: 0.06em;
-  }
-  header p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 1.05rem;
-  }
-  nav {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    padding: 18px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  nav button {
-    border: 3px solid var(--line);
-    background: var(--panel);
-    color: var(--ink);
-    padding: 10px 20px;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: bold;
-    box-shadow: 0 4px 0 var(--line);
-    transition: transform 0.12s ease;
-  }
-  nav button:hover {
-    transform: translateY(-2px);
-  }
-  nav button:active {
-    transform: translateY(2px);
-    box-shadow: 0 1px 0 var(--line);
-  }
-  nav button.active {
-    background: var(--pink);
-    color: #fff;
-    border-color: var(--pink);
-    box-shadow: 0 4px 0 #d9648a;
-  }
-  main {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px 20px 90px;
-    position: relative;
-    z-index: 1;
-  }
-  section {
-    display: none;
-  }
-  section.active {
-    display: block;
-    animation: pop-in 0.3s ease;
-  }
-  @keyframes pop-in {
-    from { opacity: 0; transform: scale(0.96); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  h2 {
-    font-size: 1.4rem;
-    display: inline-block;
-    background: var(--yellow-soft);
-    border-radius: 999px;
-    padding: 6px 22px;
-    margin-bottom: 22px;
-    color: #a5730a;
-  }
-  .kana-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-  }
-  .kana-cell {
-    background: var(--panel);
-    border: 3px solid var(--line);
-    border-radius: 16px;
-    padding: 16px 6px;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 4px 0 var(--line);
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
-  }
-  .kana-cell .kana {
-    font-size: 1.9rem;
-    display: block;
-  }
-  .kana-cell .romaji {
-    font-size: 0.8rem;
-    color: var(--muted);
-    display: block;
-    margin-top: 4px;
-    font-weight: bold;
-  }
-  .kana-cell.empty {
-    visibility: hidden;
-  }
-  .kana-cell:hover {
-    transform: translateY(-4px) rotate(-1deg);
-    border-color: var(--pink);
-    box-shadow: 0 6px 0 var(--pink-soft);
-  }
-  .kana-cell:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 0 var(--line);
-  }
-  .vocab-list {
-    display: grid;
-    gap: 12px;
-  }
-  .vocab-item {
-    background: var(--panel);
-    border: 3px solid var(--line);
-    border-radius: 16px;
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    box-shadow: 0 4px 0 var(--line);
-  }
-  .vocab-item .jp {
-    font-size: 1.4rem;
-    color: var(--purple);
-  }
-  .vocab-item .romaji {
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-  .vocab-item .zh {
-    color: var(--muted);
-    font-weight: bold;
-  }
-  .speak-btn {
-    border: none;
-    color: #fff;
-    background: var(--blue);
-    border-radius: 999px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-family: inherit;
-    font-weight: bold;
-    flex-shrink: 0;
-    box-shadow: 0 3px 0 #3c7fb8;
-  }
-  .speak-btn:hover {
-    filter: brightness(1.05);
-  }
-  .speak-btn:active {
-    transform: translateY(2px);
-    box-shadow: none;
-  }
-  .quiz-box {
-    background: var(--panel);
-    border: 3px solid var(--line);
-    border-radius: 24px;
-    padding: 36px 24px;
-    text-align: center;
-    box-shadow: 0 6px 0 var(--line);
-  }
-  .quiz-kana {
-    font-size: 4.5rem;
-    margin: 6px 0 26px;
-    color: var(--purple);
-    transition: transform 0.2s ease;
-  }
-  .quiz-kana.bump {
-    animation: bump 0.35s ease;
-  }
-  @keyframes bump {
-    0% { transform: scale(0.7) rotate(-6deg); }
-    60% { transform: scale(1.1) rotate(3deg); }
-    100% { transform: scale(1) rotate(0); }
-  }
-  .quiz-options {
-    display: grid;
+
+  /* ---------- Bento grid (home) ---------- */
+  .bento{
+    display:grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    max-width: 420px;
-    margin: 0 auto;
+    gap:12px;
+    padding:6px;
+    background: var(--nori);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 0 rgba(58,53,80,0.25), 0 14px 24px rgba(58,53,80,0.25);
   }
-  .quiz-options button {
-    padding: 16px;
-    font-size: 1.15rem;
-    font-family: inherit;
-    font-weight: bold;
-    border-radius: 14px;
-    border: 3px solid var(--line);
-    background: #fff;
-    cursor: pointer;
-    box-shadow: 0 4px 0 var(--line);
-    transition: transform 0.1s ease;
+  .cell{
+    border:none; cursor:pointer; text-align:left;
+    border-radius: var(--radius-md);
+    padding:16px 14px 14px;
+    min-height:118px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    position:relative; overflow:hidden;
+    box-shadow: inset 0 0 0 3px rgba(255,255,255,0.55);
+    transition: transform .12s ease;
   }
-  .quiz-options button:hover:not(:disabled) {
-    border-color: var(--blue);
-    transform: translateY(-2px);
+  .cell:active{ transform: scale(0.95); }
+  .cell .emoji{font-size:34px;}
+  .cell .label-jp{font-family:'Kosugi Maru',sans-serif; font-size:17px; margin-top:6px;}
+  .cell .label-zh{font-size:12px; color:rgba(74,64,99,0.75); font-weight:500;}
+  .cell.big{grid-column: span 2; min-height:96px; flex-direction:row; align-items:center; justify-content:flex-start; gap:14px;}
+  .cell.big .emoji{font-size:40px;}
+  .c-matcha{background: linear-gradient(160deg, var(--matcha-light), #DCEAC7);}
+  .c-peach{background: linear-gradient(160deg, #FFD9C2, #FFC5A3);}
+  .c-sun{background: linear-gradient(160deg, #FFEAB0, #FFDD85);}
+  .c-pink{background: linear-gradient(160deg, #FFD9D9, var(--pink));}
+  .c-sky{background: linear-gradient(160deg, #D3EEF3, var(--sky));}
+  .c-plum{background: linear-gradient(160deg, #E7D9EE, #D7BFE3);}
+  .c-lav{background: linear-gradient(160deg, #E7DBFF, #CBB2F7);}
+  .c-teal{background: linear-gradient(160deg, #C9EEE3, #93D6C4);}
+  .c-caramel{background: linear-gradient(160deg, #F3DDB2, #E4BC7C);}
+
+  /* ---------- Detail page ---------- */
+  .page{display:none;}
+  .page.active{display:block;}
+  #home.active{display:block;}
+  .backbar{
+    display:flex; align-items:center; gap:10px; margin-bottom:14px;
   }
-  .quiz-options button:disabled {
-    cursor: default;
+  .back-btn{
+    border:none; background:#fff; width:42px;height:42px; border-radius:14px;
+    font-size:20px; box-shadow: var(--shadow); cursor:pointer; color:var(--ink);
   }
-  .quiz-options button.correct {
-    background: var(--green-soft);
-    border-color: var(--green);
-    box-shadow: 0 4px 0 var(--green);
-    animation: bump 0.35s ease;
+  .back-btn:active{transform:translateY(3px); box-shadow:none;}
+  .page-title{font-family:'Kosugi Maru',sans-serif; font-size:20px; margin:0;}
+  .page-title .zh{display:block; font-size:12px; font-family:'Zen Maru Gothic',sans-serif; color:var(--ink-soft); font-weight:500;}
+
+  .quiz-cta{
+    display:flex; align-items:center; gap:10px; width:100%;
+    border:none; border-radius:20px; padding:14px 16px; margin-bottom:16px;
+    background: linear-gradient(135deg, var(--peach), var(--peach-dark));
+    color:#fff; font-family:'Kosugi Maru',sans-serif; font-size:16px;
+    box-shadow: 0 5px 0 rgba(230,126,82,0.5); cursor:pointer;
   }
-  .quiz-options button.wrong {
-    background: var(--pink-soft);
-    border-color: var(--pink);
-    box-shadow: 0 4px 0 var(--pink);
-    animation: shake 0.35s ease;
+  .quiz-cta:active{ transform:translateY(4px); box-shadow:none; }
+  .quiz-cta .qe{font-size:24px;}
+
+  .cardgrid{
+    display:grid; grid-template-columns: repeat(2, 1fr); gap:12px;
   }
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
+  .word-card{
+    background:#fff; border-radius:20px; padding:16px 12px; text-align:center;
+    box-shadow: var(--shadow); cursor:pointer; border:3px solid transparent;
+    transition: transform .1s ease, border-color .15s ease;
   }
-  .quiz-status {
-    margin-top: 22px;
-    color: var(--purple);
-    font-size: 1.05rem;
-    font-weight: bold;
-    min-height: 1.4em;
+  .word-card:active{transform: scale(0.94);}
+  .word-card.playing{border-color: var(--sun); background:#FFFBEE;}
+  .word-card .emoji{font-size:38px; display:block;}
+  .word-card .jpword{font-family:'Kosugi Maru',sans-serif; font-size:18px; margin-top:8px; color:var(--ink);}
+  .word-card .romaji{font-size:11px; color:var(--ink-soft); font-weight:500; margin-top:1px;}
+  .word-card .zhword{font-size:12.5px; color:var(--peach-dark); font-weight:700; margin-top:5px;}
+  .word-card .speaker{font-size:15px; margin-top:6px; opacity:.55;}
+  .word-card .kana-char{font-size:44px; display:block; line-height:1; color:var(--ink);}
+  .cardgrid.kana-grid{grid-template-columns: repeat(3, 1fr);}
+  .cardgrid.kana-grid .word-card{padding:12px 6px;}
+  .cardgrid.kana-grid .romaji{margin-top:4px;}
+
+  /* ---------- Quiz overlay ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(58,53,80,0.55);
+    display:none; align-items:flex-end; justify-content:center; z-index:50;
   }
-  .quiz-score {
-    margin-top: 12px;
-    display: inline-block;
-    font-size: 0.9rem;
-    color: #a5730a;
-    background: var(--yellow-soft);
-    border-radius: 999px;
-    padding: 6px 18px;
+  .overlay.active{display:flex;}
+  .sheet{
+    background:var(--cream); width:100%; max-width:520px; border-radius:28px 28px 0 0;
+    padding:22px 20px 30px; box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+    animation: sheetUp .25s ease;
   }
-  footer {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.85rem;
-    padding: 20px;
-    position: relative;
-    z-index: 1;
+  @keyframes sheetUp{ from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+  .sheet-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;}
+  .sheet-head h3{margin:0; font-family:'Kosugi Maru',sans-serif; font-size:17px;}
+  .close-btn{border:none; background:var(--cream-deep); width:36px;height:36px;border-radius:12px; font-size:16px; cursor:pointer;}
+  .quiz-progress{font-size:12px; color:var(--ink-soft); margin-bottom:14px; font-weight:600;}
+  .replay-row{display:flex; justify-content:center; margin:10px 0 20px;}
+  .replay-btn{
+    border:none; width:88px; height:88px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #fff, var(--sky));
+    box-shadow: 0 6px 0 var(--sky-dark); font-size:34px; cursor:pointer;
   }
-  @media (max-width: 480px) {
-    .kana-grid { grid-template-columns: repeat(4, 1fr); }
-    .kana-cell .kana { font-size: 1.6rem; }
+  .replay-btn:active{ transform:translateY(5px); box-shadow:none; }
+  .options{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+  .opt{
+    background:#fff; border:3px solid transparent; border-radius:18px; padding:14px 4px;
+    text-align:center; font-size:34px; cursor:pointer; box-shadow: var(--shadow);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg-1: #2a2035;
-      --bg-2: #201a2b;
-      --bg-3: #241d33;
-      --panel: #2f2740;
-      --ink: #f3ece0;
-      --muted: #b6a8c2;
-      --line: #443a58;
-      --pink-soft: #4a3348;
-      --blue-soft: #2c3a4d;
-      --yellow-soft: #4a3d24;
-      --purple-soft: #392c4d;
-      --green-soft: #2c3f30;
-    }
-    body::before, body::after { opacity: 0.25; }
-    .cloud, .cloud::before, .cloud::after { background: #372c48; opacity: 0.4; }
-    header h1 { text-shadow: 2px 2px 0 #4a3d24; }
-    .quiz-score { color: #f0d38a; }
-    h2 { color: #f0d38a; }
+  .opt:active{transform:scale(0.92);}
+  .opt.correct{border-color:var(--matcha); background:#EAF5E1;}
+  .opt.wrong{border-color:var(--pink-dark); background:#FFEAEA;}
+  .quiz-feedback{
+    text-align:center; margin-top:16px; min-height:28px; font-family:'Kosugi Maru',sans-serif;
+    font-size:16px; font-weight:700;
   }
+  .quiz-feedback.good{color:var(--matcha-dark);}
+  .quiz-feedback.bad{color:var(--peach-dark);}
+
+  .bubble{
+    position:fixed; left:50%; top:14px; transform:translateX(-50%);
+    background:var(--nori); color:#fff; padding:9px 16px; border-radius:999px;
+    font-family:'Kosugi Maru',sans-serif; font-size:14px; z-index:60;
+    box-shadow:0 6px 14px rgba(0,0,0,0.25);
+    opacity:0; pointer-events:none; transition: opacity .3s ease, transform .3s ease;
+  }
+  .bubble.show{opacity:1; transform:translateX(-50%) translateY(6px);}
+
+  .install-tip{
+    margin-top:24px; background:#fff; border-radius:20px; padding:14px 16px;
+    box-shadow: var(--shadow); font-size:12.5px; color:var(--ink-soft); line-height:1.6;
+  }
+  .install-tip b{color:var(--ink); font-family:'Kosugi Maru',sans-serif; font-weight:400;}
 </style>
+</head>
+<body>
 
-<div class="cloud cloud-a"></div>
-<div class="cloud cloud-b"></div>
+<div class="bubble" id="bubble"></div>
 
-<header>
-  <svg class="mascot" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="50" cy="58" rx="34" ry="30" fill="#ffb37a"/>
-    <path d="M20 40 L8 12 L38 30 Z" fill="#ffb37a"/>
-    <path d="M80 40 L92 12 L62 30 Z" fill="#ffb37a"/>
-    <path d="M22 36 L14 20 L34 30 Z" fill="#fff3e6"/>
-    <path d="M78 36 L86 20 L66 30 Z" fill="#fff3e6"/>
-    <ellipse cx="50" cy="64" rx="18" ry="14" fill="#fff3e6"/>
-    <circle cx="38" cy="54" r="4.5" fill="#5b4636"/>
-    <circle cx="62" cy="54" r="4.5" fill="#5b4636"/>
-    <circle cx="30" cy="60" r="5" fill="#ff8fab" opacity="0.7"/>
-    <circle cx="70" cy="60" r="5" fill="#ff8fab" opacity="0.7"/>
-    <path d="M45 64 Q50 70 55 64" stroke="#5b4636" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-  </svg>
-  <h1>日文學習教室</h1>
-  <p>從五十音開始, 一步一步認識日文</p>
-</header>
+<div class="app">
 
-<nav id="nav">
-  <button data-target="hiragana" class="active">平假名</button>
-  <button data-target="katakana">片假名</button>
-  <button data-target="vocab">打招呼用語</button>
-  <button data-target="quiz">測驗遊戲</button>
-</nav>
+  <!-- HOME -->
+  <div class="page active" id="home">
+    <header class="top">
+      <svg class="mascot" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M50 8 L92 88 L8 88 Z" fill="#FFFDF7" stroke="#EADFC4" stroke-width="2"/>
+        <path d="M50 8 L92 88 L8 88 Z" fill="none"/>
+        <rect x="8" y="66" width="84" height="22" fill="#3A3550" />
+        <path d="M8 66 Q50 78 92 66 L92 88 L8 88 Z" fill="#3A3550"/>
+        <circle cx="38" cy="52" r="4" fill="#4A4063"/>
+        <circle cx="62" cy="52" r="4" fill="#4A4063"/>
+        <path d="M40 64 Q50 70 60 64" stroke="#4A4063" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="30" cy="60" r="5" fill="#FFB4B4" opacity="0.7"/>
+        <circle cx="70" cy="60" r="5" fill="#FFB4B4" opacity="0.7"/>
+      </svg>
+      <div class="title-block">
+        <h1 class="jp">にほんご べんきょう</h1>
+        <p>幼稚園寶貝的日語練習教室</p>
+      </div>
+      <div class="star-badge">⭐ <span id="starCount" class="num">0</span></div>
+    </header>
 
-<main>
-  <section id="hiragana" class="active">
-    <h2>平假名 (ひらがな)</h2>
-    <div class="kana-grid" id="hiragana-grid"></div>
-  </section>
+    <nav class="bento" id="bentoGrid"></nav>
 
-  <section id="katakana">
-    <h2>片假名 (カタカナ)</h2>
-    <div class="kana-grid" id="katakana-grid"></div>
-  </section>
-
-  <section id="vocab">
-    <h2>常用打招呼用語</h2>
-    <div class="vocab-list" id="vocab-list"></div>
-  </section>
-
-  <section id="quiz">
-    <h2>五十音測驗</h2>
-    <div class="quiz-box">
-      <div class="quiz-kana" id="quiz-kana">あ</div>
-      <div class="quiz-options" id="quiz-options"></div>
-      <div class="quiz-status" id="quiz-status"></div>
-      <div class="quiz-score" id="quiz-score">答對 0 題, 共作答 0 題</div>
+    <div class="install-tip">
+      📱 <b>加到手機主畫面：</b>用手機瀏覽器打開這個頁面連結後，iPhone 請按下方「分享」→「加入主畫面」；Android 請按右上角選單→「新增至主畫面」，就會出現一個可愛的日文 App 圖示囉！
     </div>
-  </section>
-</main>
+  </div>
 
-<footer>點選假名或詞彙可以聽發音, 需瀏覽器支援語音朗讀</footer>
+  <!-- CATEGORY DETAIL -->
+  <div class="page" id="detail">
+    <div class="backbar">
+      <button class="back-btn" onclick="goHome()">←</button>
+      <div>
+        <h2 class="page-title jp" id="detailTitleJp"></h2>
+        <span class="page-title zh" id="detailTitleZh"></span>
+      </div>
+    </div>
+    <button class="quiz-cta" onclick="startQuiz()">
+      <span class="qe">🎧</span>
+      <span>聽力小遊戲：考考我！</span>
+    </button>
+    <div class="cardgrid" id="cardGrid"></div>
+  </div>
+
+</div>
+
+<!-- QUIZ OVERLAY -->
+<div class="overlay" id="quizOverlay">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h3 class="jp">🎧 きいて タッチ！</h3>
+      <button class="close-btn" onclick="closeQuiz()">✕</button>
+    </div>
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div class="replay-row">
+      <button class="replay-btn" id="replayBtn" onclick="playCurrentQuizAudio()">🔊</button>
+    </div>
+    <div class="options" id="quizOptions"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+  </div>
+</div>
 
 <script>
-  var HIRAGANA = [
-    ["あ","a"],["い","i"],["う","u"],["え","e"],["お","o"],
-    ["か","ka"],["き","ki"],["く","ku"],["け","ke"],["こ","ko"],
-    ["さ","sa"],["し","shi"],["す","su"],["せ","se"],["そ","so"],
-    ["た","ta"],["ち","chi"],["つ","tsu"],["て","te"],["と","to"],
-    ["な","na"],["に","ni"],["ぬ","nu"],["ね","ne"],["の","no"],
-    ["は","ha"],["ひ","hi"],["ふ","fu"],["へ","he"],["ほ","ho"],
-    ["ま","ma"],["み","mi"],["む","mu"],["め","me"],["も","mo"],
-    ["や","ya"],["",""],["ゆ","yu"],["",""],["よ","yo"],
-    ["ら","ra"],["り","ri"],["る","ru"],["れ","re"],["ろ","ro"],
-    ["わ","wa"],["",""],["を","wo"],["",""],["ん","n"]
-  ];
+/* ---------------- Data ---------------- */
+const CATEGORIES = [
+  { id:'hiragana', jp:'ひらがな', zh:'平假名', emoji:'あ', color:'c-teal', type:'kana',
+    items:[
+      {jp:'あ',romaji:'a'},{jp:'い',romaji:'i'},{jp:'う',romaji:'u'},{jp:'え',romaji:'e'},{jp:'お',romaji:'o'},
+      {jp:'か',romaji:'ka'},{jp:'き',romaji:'ki'},{jp:'く',romaji:'ku'},{jp:'け',romaji:'ke'},{jp:'こ',romaji:'ko'},
+      {jp:'さ',romaji:'sa'},{jp:'し',romaji:'shi'},{jp:'す',romaji:'su'},{jp:'せ',romaji:'se'},{jp:'そ',romaji:'so'},
+      {jp:'た',romaji:'ta'},{jp:'ち',romaji:'chi'},{jp:'つ',romaji:'tsu'},{jp:'て',romaji:'te'},{jp:'と',romaji:'to'},
+      {jp:'な',romaji:'na'},{jp:'に',romaji:'ni'},{jp:'ぬ',romaji:'nu'},{jp:'ね',romaji:'ne'},{jp:'の',romaji:'no'},
+      {jp:'は',romaji:'ha'},{jp:'ひ',romaji:'hi'},{jp:'ふ',romaji:'fu'},{jp:'へ',romaji:'he'},{jp:'ほ',romaji:'ho'},
+      {jp:'ま',romaji:'ma'},{jp:'み',romaji:'mi'},{jp:'む',romaji:'mu'},{jp:'め',romaji:'me'},{jp:'も',romaji:'mo'},
+      {jp:'や',romaji:'ya'},{jp:'ゆ',romaji:'yu'},{jp:'よ',romaji:'yo'},
+      {jp:'ら',romaji:'ra'},{jp:'り',romaji:'ri'},{jp:'る',romaji:'ru'},{jp:'れ',romaji:'re'},{jp:'ろ',romaji:'ro'},
+      {jp:'わ',romaji:'wa'},{jp:'を',romaji:'wo'},{jp:'ん',romaji:'n'},
+    ]},
+  { id:'katakana', jp:'カタカナ', zh:'片假名', emoji:'ア', color:'c-caramel', type:'kana',
+    items:[
+      {jp:'ア',romaji:'a'},{jp:'イ',romaji:'i'},{jp:'ウ',romaji:'u'},{jp:'エ',romaji:'e'},{jp:'オ',romaji:'o'},
+      {jp:'カ',romaji:'ka'},{jp:'キ',romaji:'ki'},{jp:'ク',romaji:'ku'},{jp:'ケ',romaji:'ke'},{jp:'コ',romaji:'ko'},
+      {jp:'サ',romaji:'sa'},{jp:'シ',romaji:'shi'},{jp:'ス',romaji:'su'},{jp:'セ',romaji:'se'},{jp:'ソ',romaji:'so'},
+      {jp:'タ',romaji:'ta'},{jp:'チ',romaji:'chi'},{jp:'ツ',romaji:'tsu'},{jp:'テ',romaji:'te'},{jp:'ト',romaji:'to'},
+      {jp:'ナ',romaji:'na'},{jp:'ニ',romaji:'ni'},{jp:'ヌ',romaji:'nu'},{jp:'ネ',romaji:'ne'},{jp:'ノ',romaji:'no'},
+      {jp:'ハ',romaji:'ha'},{jp:'ヒ',romaji:'hi'},{jp:'フ',romaji:'fu'},{jp:'ヘ',romaji:'he'},{jp:'ホ',romaji:'ho'},
+      {jp:'マ',romaji:'ma'},{jp:'ミ',romaji:'mi'},{jp:'ム',romaji:'mu'},{jp:'メ',romaji:'me'},{jp:'モ',romaji:'mo'},
+      {jp:'ヤ',romaji:'ya'},{jp:'ユ',romaji:'yu'},{jp:'ヨ',romaji:'yo'},
+      {jp:'ラ',romaji:'ra'},{jp:'リ',romaji:'ri'},{jp:'ル',romaji:'ru'},{jp:'レ',romaji:'re'},{jp:'ロ',romaji:'ro'},
+      {jp:'ワ',romaji:'wa'},{jp:'ヲ',romaji:'wo'},{jp:'ン',romaji:'n'},
+    ]},
+  { id:'greet', jp:'あいさつ', zh:'打招呼', emoji:'👋', color:'c-sun', big:true,
+    items:[
+      {jp:'おはよう', romaji:'ohayō', zh:'早安', emoji:'☀️'},
+      {jp:'こんにちは', romaji:'konnichiwa', zh:'午安/你好', emoji:'🌤️'},
+      {jp:'こんばんは', romaji:'konbanwa', zh:'晚安（見面時）', emoji:'🌙'},
+      {jp:'ありがとう', romaji:'arigatō', zh:'謝謝', emoji:'🙏'},
+      {jp:'ごめんね', romaji:'gomen ne', zh:'對不起', emoji:'🥺'},
+      {jp:'さようなら', romaji:'sayōnara', zh:'再見', emoji:'👋'},
+      {jp:'おやすみ', romaji:'oyasumi', zh:'晚安（睡覺）', emoji:'😴'},
+      {jp:'いただきます', romaji:'itadakimasu', zh:'開動了', emoji:'🍽️'},
+    ]},
+  { id:'phrase', jp:'よくつかう ことば', zh:'常用短句', emoji:'💬', color:'c-lav', big:true,
+    items:[
+      {jp:'トイレ行きたい', romaji:'toire ikitai', zh:'我要上廁所', emoji:'🚽'},
+      {jp:'おなかすいた', romaji:'onaka suita', zh:'肚子餓了', emoji:'😋'},
+      {jp:'のどかわいた', romaji:'nodo kawaita', zh:'口渴了', emoji:'🥤'},
+      {jp:'ねむい', romaji:'nemui', zh:'想睡覺了', emoji:'😪'},
+      {jp:'たすけて', romaji:'tasukete', zh:'救命/幫幫我', emoji:'🆘'},
+      {jp:'できた！', romaji:'dekita!', zh:'我做到了！', emoji:'🙌'},
+      {jp:'もういちど', romaji:'mō ichido', zh:'再一次', emoji:'🔁'},
+      {jp:'だいじょうぶ', romaji:'daijōbu', zh:'我沒事/沒關係', emoji:'👍'},
+      {jp:'わからない', romaji:'wakaranai', zh:'我不知道/不懂', emoji:'🤔'},
+      {jp:'あそぼう', romaji:'asobou', zh:'一起玩吧', emoji:'🧸'},
+    ]},
+  { id:'animal', jp:'どうぶつ', zh:'動物', emoji:'🐻', color:'c-matcha',
+    items:[
+      {jp:'いぬ', romaji:'inu', zh:'狗狗', emoji:'🐶'},
+      {jp:'ねこ', romaji:'neko', zh:'貓咪', emoji:'🐱'},
+      {jp:'うさぎ', romaji:'usagi', zh:'兔子', emoji:'🐰'},
+      {jp:'くま', romaji:'kuma', zh:'熊熊', emoji:'🐻'},
+      {jp:'ぞう', romaji:'zō', zh:'大象', emoji:'🐘'},
+      {jp:'きりん', romaji:'kirin', zh:'長頸鹿', emoji:'🦒'},
+      {jp:'さる', romaji:'saru', zh:'猴子', emoji:'🐵'},
+      {jp:'ぱんだ', romaji:'panda', zh:'貓熊', emoji:'🐼'},
+    ]},
+  { id:'color', jp:'いろ', zh:'顏色', emoji:'🌈', color:'c-sky',
+    items:[
+      {jp:'あか', romaji:'aka', zh:'紅色', emoji:'🔴'},
+      {jp:'あお', romaji:'ao', zh:'藍色', emoji:'🔵'},
+      {jp:'きいろ', romaji:'kiiro', zh:'黃色', emoji:'🟡'},
+      {jp:'みどり', romaji:'midori', zh:'綠色', emoji:'🟢'},
+      {jp:'しろ', romaji:'shiro', zh:'白色', emoji:'⚪'},
+      {jp:'くろ', romaji:'kuro', zh:'黑色', emoji:'⚫'},
+      {jp:'ピンク', romaji:'pinku', zh:'粉紅色', emoji:'🩷'},
+      {jp:'むらさき', romaji:'murasaki', zh:'紫色', emoji:'🟣'},
+    ]},
+  { id:'number', jp:'すうじ', zh:'數字', emoji:'🔢', color:'c-plum',
+    items:[
+      {jp:'いち', romaji:'ichi', zh:'1', emoji:'1️⃣'},
+      {jp:'に', romaji:'ni', zh:'2', emoji:'2️⃣'},
+      {jp:'さん', romaji:'san', zh:'3', emoji:'3️⃣'},
+      {jp:'よん', romaji:'yon', zh:'4', emoji:'4️⃣'},
+      {jp:'ご', romaji:'go', zh:'5', emoji:'5️⃣'},
+      {jp:'ろく', romaji:'roku', zh:'6', emoji:'6️⃣'},
+      {jp:'なな', romaji:'nana', zh:'7', emoji:'7️⃣'},
+      {jp:'はち', romaji:'hachi', zh:'8', emoji:'8️⃣'},
+      {jp:'きゅう', romaji:'kyū', zh:'9', emoji:'9️⃣'},
+      {jp:'じゅう', romaji:'jū', zh:'10', emoji:'🔟'},
+    ]},
+  { id:'food', jp:'たべもの', zh:'食物', emoji:'🍙', color:'c-peach',
+    items:[
+      {jp:'ごはん', romaji:'gohan', zh:'白飯', emoji:'🍚'},
+      {jp:'パン', romaji:'pan', zh:'麵包', emoji:'🍞'},
+      {jp:'おにぎり', romaji:'onigiri', zh:'飯糰', emoji:'🍙'},
+      {jp:'りんご', romaji:'ringo', zh:'蘋果', emoji:'🍎'},
+      {jp:'バナナ', romaji:'banana', zh:'香蕉', emoji:'🍌'},
+      {jp:'ぎゅうにゅう', romaji:'gyūnyū', zh:'牛奶', emoji:'🥛'},
+      {jp:'みず', romaji:'mizu', zh:'水', emoji:'💧'},
+      {jp:'おかし', romaji:'okashi', zh:'點心', emoji:'🍬'},
+    ]},
+  { id:'body', jp:'からだ', zh:'身體部位', emoji:'🙂', color:'c-pink',
+    items:[
+      {jp:'あたま', romaji:'atama', zh:'頭', emoji:'🧠'},
+      {jp:'め', romaji:'me', zh:'眼睛', emoji:'👀'},
+      {jp:'はな', romaji:'hana', zh:'鼻子', emoji:'👃'},
+      {jp:'くち', romaji:'kuchi', zh:'嘴巴', emoji:'👄'},
+      {jp:'みみ', romaji:'mimi', zh:'耳朵', emoji:'👂'},
+      {jp:'て', romaji:'te', zh:'手', emoji:'🖐️'},
+      {jp:'あし', romaji:'ashi', zh:'腳', emoji:'🦶'},
+      {jp:'おなか', romaji:'onaka', zh:'肚子', emoji:'🫃'},
+    ]},
+  { id:'family', jp:'かぞく', zh:'家人', emoji:'👪', color:'c-matcha', big:true,
+    items:[
+      {jp:'おかあさん', romaji:'okāsan', zh:'媽媽', emoji:'👩'},
+      {jp:'おとうさん', romaji:'otōsan', zh:'爸爸', emoji:'👨'},
+      {jp:'おじいさん', romaji:'ojīsan', zh:'爺爺/外公', emoji:'👴'},
+      {jp:'おばあさん', romaji:'obāsan', zh:'奶奶/外婆', emoji:'👵'},
+      {jp:'おにいさん', romaji:'onīsan', zh:'哥哥', emoji:'🧑'},
+      {jp:'おねえさん', romaji:'onēsan', zh:'姊姊', emoji:'👧'},
+      {jp:'あかちゃん', romaji:'akachan', zh:'小寶寶', emoji:'👶'},
+    ]},
+];
 
-  var KATAKANA = [
-    ["ア","a"],["イ","i"],["ウ","u"],["エ","e"],["オ","o"],
-    ["カ","ka"],["キ","ki"],["ク","ku"],["ケ","ke"],["コ","ko"],
-    ["サ","sa"],["シ","shi"],["ス","su"],["セ","se"],["ソ","so"],
-    ["タ","ta"],["チ","chi"],["ツ","tsu"],["テ","te"],["ト","to"],
-    ["ナ","na"],["ニ","ni"],["ヌ","nu"],["ネ","ne"],["ノ","no"],
-    ["ハ","ha"],["ヒ","hi"],["フ","fu"],["ヘ","he"],["ホ","ho"],
-    ["マ","ma"],["ミ","mi"],["ム","mu"],["メ","me"],["モ","mo"],
-    ["ヤ","ya"],["",""],["ユ","yu"],["",""],["ヨ","yo"],
-    ["ラ","ra"],["リ","ri"],["ル","ru"],["レ","re"],["ロ","ro"],
-    ["ワ","wa"],["",""],["ヲ","wo"],["",""],["ン","n"]
-  ];
+/* ---------------- State ---------------- */
+let stars = 0;
+let currentCategory = null;
+let quizPool = [];
+let quizIndex = 0;
+let quizCorrect = 0;
+const QUIZ_LEN = 5;
 
-  var VOCAB = [
-    ["おはよう", "ohayou", "早安"],
-    ["こんにちは", "konnichiwa", "午安, 你好"],
-    ["こんばんは", "konbanwa", "晚安, 見面時"],
-    ["おやすみ", "oyasumi", "晚安, 睡前"],
-    ["ありがとう", "arigatou", "謝謝"],
-    ["ごめんね", "gomen ne", "對不起"],
-    ["いただきます", "itadakimasu", "開動了"],
-    ["ごちそうさま", "gochisousama", "吃飽了, 謝謝招待"],
-    ["さようなら", "sayounara", "再見"],
-    ["だいすき", "daisuki", "最喜歡"]
-  ];
+/* ---------------- Storage (persists in this browser via localStorage) ---------------- */
+function loadStars(){
+  try{
+    const v = window.localStorage.getItem('jp-app:stars');
+    stars = v ? parseInt(v, 10) || 0 : 0;
+  }catch(e){ stars = 0; }
+  document.getElementById('starCount').textContent = stars;
+}
+function saveStars(){
+  try{ window.localStorage.setItem('jp-app:stars', String(stars)); }
+  catch(e){ /* ignore silently, keep session progress */ }
+}
+function addStars(n){
+  stars += n;
+  document.getElementById('starCount').textContent = stars;
+  saveStars();
+}
 
-  function speak(text) {
-    if (!window.speechSynthesis) return;
-    var utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "ja-JP";
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utter);
+/* ---------------- Speech ---------------- */
+let jpVoice = null;
+function pickVoice(){
+  const voices = speechSynthesis.getVoices();
+  jpVoice = voices.find(v => v.lang === 'ja-JP') || voices.find(v => v.lang && v.lang.startsWith('ja')) || null;
+}
+if('speechSynthesis' in window){
+  pickVoice();
+  speechSynthesis.onvoiceschanged = pickVoice;
+}
+function speak(text, onend){
+  if(!('speechSynthesis' in window)){
+    if(onend) onend();
+    return;
   }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP';
+  if(jpVoice) u.voice = jpVoice;
+  u.rate = 0.82;
+  u.pitch = 1.05;
+  if(onend) u.onend = onend;
+  speechSynthesis.speak(u);
+}
 
-  function buildKanaGrid(containerId, data) {
-    var el = document.getElementById(containerId);
-    data.forEach(function (item) {
-      var cell = document.createElement("div");
-      if (!item[0]) {
-        cell.className = "kana-cell empty";
-        el.appendChild(cell);
-        return;
-      }
-      cell.className = "kana-cell";
-      cell.innerHTML = '<span class="kana">' + item[0] + '</span><span class="romaji">' + item[1] + '</span>';
-      cell.addEventListener("click", function () { speak(item[0]); });
-      el.appendChild(cell);
-    });
+/* ---------------- Bubble toast ---------------- */
+let bubbleTimer = null;
+function showBubble(msg){
+  const b = document.getElementById('bubble');
+  b.textContent = msg;
+  b.classList.add('show');
+  clearTimeout(bubbleTimer);
+  bubbleTimer = setTimeout(()=> b.classList.remove('show'), 1800);
+}
+
+/* ---------------- Home / navigation ---------------- */
+function renderHome(){
+  const grid = document.getElementById('bentoGrid');
+  grid.innerHTML = '';
+  CATEGORIES.forEach(cat=>{
+    const btn = document.createElement('button');
+    btn.className = 'cell ' + cat.color + (cat.big ? ' big' : '');
+    btn.innerHTML = `<span class="emoji">${cat.emoji}</span>
+      <span>
+        <span class="label-jp jp">${cat.jp}</span><br>
+        <span class="label-zh">${cat.zh}</span>
+      </span>`;
+    btn.onclick = ()=> openCategory(cat.id);
+    grid.appendChild(btn);
+  });
+}
+
+function openCategory(id){
+  currentCategory = CATEGORIES.find(c=>c.id===id);
+  document.getElementById('detailTitleJp').textContent = currentCategory.emoji + ' ' + currentCategory.jp;
+  document.getElementById('detailTitleZh').textContent = currentCategory.zh;
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = '';
+  grid.classList.toggle('kana-grid', currentCategory.type === 'kana');
+  currentCategory.items.forEach(item=>{
+    const card = document.createElement('div');
+    card.className = 'word-card';
+    card.innerHTML = (currentCategory.type === 'kana') ? `
+      <span class="kana-char jp">${item.jp}</span>
+      <div class="romaji">${item.romaji}</div>
+      <div class="speaker">🔊</div>
+    ` : `
+      <span class="emoji">${item.emoji}</span>
+      <div class="jpword jp">${item.jp}</div>
+      <div class="romaji">${item.romaji}</div>
+      <div class="zhword">${item.zh}</div>
+      <div class="speaker">🔊 點我聽聽看</div>
+    `;
+    card.onclick = ()=>{
+      document.querySelectorAll('.word-card.playing').forEach(c=>c.classList.remove('playing'));
+      card.classList.add('playing');
+      speak(item.jp, ()=> card.classList.remove('playing'));
+    };
+    grid.appendChild(card);
+  });
+  document.getElementById('home').classList.remove('active');
+  document.getElementById('detail').classList.add('active');
+}
+
+function goHome(){
+  document.getElementById('detail').classList.remove('active');
+  document.getElementById('home').classList.add('active');
+}
+
+/* ---------------- Quiz ---------------- */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
   }
+  return a;
+}
 
-  function buildVocabList() {
-    var el = document.getElementById("vocab-list");
-    VOCAB.forEach(function (item) {
-      var row = document.createElement("div");
-      row.className = "vocab-item";
-      row.innerHTML =
-        '<div>' +
-          '<div class="jp">' + item[0] + '</div>' +
-          '<div class="romaji">' + item[1] + '</div>' +
-        '</div>' +
-        '<div class="zh">' + item[2] + '</div>' +
-        '<button class="speak-btn">發音</button>';
-      row.querySelector(".speak-btn").addEventListener("click", function () { speak(item[0]); });
-      el.appendChild(row);
-    });
+function startQuiz(){
+  if(!currentCategory || currentCategory.items.length < 3) return;
+  const len = Math.min(QUIZ_LEN, currentCategory.items.length);
+  quizPool = shuffle(currentCategory.items).slice(0, len);
+  quizIndex = 0;
+  quizCorrect = 0;
+  document.getElementById('quizOverlay').classList.add('active');
+  loadQuizQuestion();
+}
+
+function closeQuiz(){
+  document.getElementById('quizOverlay').classList.remove('active');
+  speechSynthesis.cancel();
+}
+
+function loadQuizQuestion(){
+  const target = quizPool[quizIndex];
+  document.getElementById('quizProgress').textContent = `第 ${quizIndex+1} / ${quizPool.length} 題`;
+  document.getElementById('quizFeedback').textContent = '';
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+
+  // build 3 options: target + 2 distractors from same category
+  const others = shuffle(currentCategory.items.filter(i=> i.jp !== target.jp)).slice(0,2);
+  const options = shuffle([target, ...others]);
+
+  const optWrap = document.getElementById('quizOptions');
+  optWrap.innerHTML = '';
+  options.forEach(opt=>{
+    const el = document.createElement('button');
+    el.className = 'opt jp';
+    el.textContent = opt.emoji || opt.jp;
+    el.onclick = ()=> answerQuiz(opt, target, el);
+    optWrap.appendChild(el);
+  });
+
+  playCurrentQuizAudio();
+}
+
+function playCurrentQuizAudio(){
+  if(quizPool[quizIndex]) speak(quizPool[quizIndex].jp);
+}
+
+function answerQuiz(chosen, target, el){
+  const buttons = document.querySelectorAll('#quizOptions .opt');
+  buttons.forEach(b=> b.onclick = null);
+  const fb = document.getElementById('quizFeedback');
+  if(chosen.jp === target.jp){
+    el.classList.add('correct');
+    fb.textContent = '🎉 正解！すごい！(答對了，好棒！)';
+    fb.className = 'quiz-feedback good';
+    quizCorrect++;
+    addStars(1);
+    showBubble('がんばれ！ 加油！');
+  }else{
+    el.classList.add('wrong');
+    const targetDisplay = target.emoji || target.jp;
+    buttons.forEach(b=>{ if(b.textContent === targetDisplay) b.classList.add('correct'); });
+    fb.textContent = `再試試看～ 正確答案是 ${targetDisplay}`;
+    fb.className = 'quiz-feedback bad';
   }
-
-  function setupNav() {
-    var buttons = document.querySelectorAll("#nav button");
-    buttons.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        buttons.forEach(function (b) { b.classList.remove("active"); });
-        document.querySelectorAll("main section").forEach(function (s) { s.classList.remove("active"); });
-        btn.classList.add("active");
-        document.getElementById(btn.dataset.target).classList.add("active");
-      });
-    });
-  }
-
-  var quizPool = HIRAGANA.filter(function (item) { return item[0]; });
-  var quizState = { answer: null, correct: 0, total: 0 };
-
-  function shuffle(arr) {
-    var copy = arr.slice();
-    for (var i = copy.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = copy[i]; copy[i] = copy[j]; copy[j] = t;
+  setTimeout(()=>{
+    quizIndex++;
+    if(quizIndex < quizPool.length){
+      loadQuizQuestion();
+    }else{
+      finishQuiz();
     }
-    return copy;
+  }, 1400);
+}
+
+function finishQuiz(){
+  const fb = document.getElementById('quizFeedback');
+  document.getElementById('quizOptions').innerHTML = '';
+  document.getElementById('quizProgress').textContent = '完成！';
+  fb.className = 'quiz-feedback good';
+  fb.innerHTML = `🏅 全部答完！答對 ${quizCorrect} / ${quizPool.length} 題<br><br>
+    <button class="quiz-cta" style="margin-top:10px;" onclick="startQuiz()">再玩一次 🔁</button>`;
+  if(quizCorrect === quizPool.length){
+    addStars(2);
+    showBubble('パーフェクト！ 完美過關！');
   }
+}
 
-  function nextQuiz() {
-    var question = quizPool[Math.floor(Math.random() * quizPool.length)];
-    quizState.answer = question;
-    var kanaEl = document.getElementById("quiz-kana");
-    kanaEl.textContent = question[0];
-    kanaEl.classList.remove("bump");
-    void kanaEl.offsetWidth;
-    kanaEl.classList.add("bump");
-    document.getElementById("quiz-status").textContent = "";
-
-    var wrongChoices = shuffle(quizPool.filter(function (item) { return item[1] !== question[1]; })).slice(0, 3);
-    var options = shuffle([question].concat(wrongChoices));
-
-    var optionsEl = document.getElementById("quiz-options");
-    optionsEl.innerHTML = "";
-    options.forEach(function (opt) {
-      var btn = document.createElement("button");
-      btn.textContent = opt[1];
-      btn.addEventListener("click", function () { checkAnswer(opt, btn); });
-      optionsEl.appendChild(btn);
-    });
-  }
-
-  function checkAnswer(chosen, btn) {
-    var buttons = document.querySelectorAll("#quiz-options button");
-    buttons.forEach(function (b) { b.disabled = true; });
-    quizState.total += 1;
-
-    if (chosen[1] === quizState.answer[1]) {
-      quizState.correct += 1;
-      btn.classList.add("correct");
-      document.getElementById("quiz-status").textContent = "答對了, 好棒";
-    } else {
-      btn.classList.add("wrong");
-      document.getElementById("quiz-status").textContent = "答錯了, 正確答案是 " + quizState.answer[1];
-      buttons.forEach(function (b) {
-        if (b.textContent === quizState.answer[1]) b.classList.add("correct");
-      });
-    }
-
-    document.getElementById("quiz-score").textContent =
-      "答對 " + quizState.correct + " 題, 共作答 " + quizState.total + " 題";
-
-    setTimeout(nextQuiz, 1200);
-  }
-
-  buildKanaGrid("hiragana-grid", HIRAGANA);
-  buildKanaGrid("katakana-grid", KATAKANA);
-  buildVocabList();
-  setupNav();
-  nextQuiz();
+/* ---------------- Init ---------------- */
+renderHome();
+loadStars();
 </script>
+</body>
+</html>
