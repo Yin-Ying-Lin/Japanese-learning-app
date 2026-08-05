@@ -1,0 +1,406 @@
+<meta charset="UTF-8">
+<title>日文學習教室</title>
+<style>
+  :root {
+    --bg: #fdf8f2;
+    --panel: #ffffff;
+    --ink: #2b2420;
+    --muted: #7a6f63;
+    --accent: #c8564f;
+    --accent-soft: #f2d9d6;
+    --line: #e6ddd2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Yu Gothic", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  header {
+    padding: 40px 20px 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+  }
+  header h1 {
+    font-size: 2rem;
+    margin: 0 0 8px;
+    letter-spacing: 0.05em;
+  }
+  header p {
+    margin: 0;
+    color: var(--muted);
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+    border-bottom: 1px solid var(--line);
+  }
+  nav button {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--ink);
+    padding: 8px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+  nav button.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+  section {
+    display: none;
+  }
+  section.active {
+    display: block;
+  }
+  h2 {
+    font-size: 1.3rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 10px;
+    margin-bottom: 20px;
+  }
+  .kana-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .kana-cell {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 6px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .kana-cell .kana {
+    font-size: 1.8rem;
+    display: block;
+  }
+  .kana-cell .romaji {
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: block;
+    margin-top: 4px;
+  }
+  .kana-cell.empty {
+    visibility: hidden;
+  }
+  .kana-cell:hover {
+    border-color: var(--accent);
+  }
+  .vocab-list {
+    display: grid;
+    gap: 10px;
+  }
+  .vocab-item {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .vocab-item .jp {
+    font-size: 1.3rem;
+  }
+  .vocab-item .romaji {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .vocab-item .zh {
+    color: var(--muted);
+  }
+  .speak-btn {
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: #fff;
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .speak-btn:hover {
+    background: var(--accent-soft);
+  }
+  .quiz-box {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px;
+    text-align: center;
+  }
+  .quiz-kana {
+    font-size: 4rem;
+    margin: 10px 0 24px;
+  }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .quiz-options button {
+    padding: 14px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fff;
+    cursor: pointer;
+  }
+  .quiz-options button:hover {
+    border-color: var(--accent);
+  }
+  .quiz-options button.correct {
+    background: #dcefdc;
+    border-color: #6fae6f;
+  }
+  .quiz-options button.wrong {
+    background: #f6dcdb;
+    border-color: var(--accent);
+  }
+  .quiz-status {
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    min-height: 1.4em;
+  }
+  .quiz-score {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 20px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1e1b18;
+      --panel: #2a2520;
+      --ink: #f1e9df;
+      --muted: #a89a8a;
+      --accent: #e08078;
+      --accent-soft: #4a2f2c;
+      --line: #3d362f;
+    }
+    .vocab-item .zh, .vocab-item .romaji { color: var(--muted); }
+    .speak-btn { background: transparent; }
+  }
+</style>
+
+<header>
+  <h1>日文學習教室</h1>
+  <p>從五十音開始, 一步一步認識日文</p>
+</header>
+
+<nav id="nav">
+  <button data-target="hiragana" class="active">平假名</button>
+  <button data-target="katakana">片假名</button>
+  <button data-target="vocab">打招呼用語</button>
+  <button data-target="quiz">測驗遊戲</button>
+</nav>
+
+<main>
+  <section id="hiragana" class="active">
+    <h2>平假名 (ひらがな)</h2>
+    <div class="kana-grid" id="hiragana-grid"></div>
+  </section>
+
+  <section id="katakana">
+    <h2>片假名 (カタカナ)</h2>
+    <div class="kana-grid" id="katakana-grid"></div>
+  </section>
+
+  <section id="vocab">
+    <h2>常用打招呼用語</h2>
+    <div class="vocab-list" id="vocab-list"></div>
+  </section>
+
+  <section id="quiz">
+    <h2>五十音測驗</h2>
+    <div class="quiz-box">
+      <div class="quiz-kana" id="quiz-kana">あ</div>
+      <div class="quiz-options" id="quiz-options"></div>
+      <div class="quiz-status" id="quiz-status"></div>
+      <div class="quiz-score" id="quiz-score">答對 0 題 / 共作答 0 題</div>
+    </div>
+  </section>
+</main>
+
+<footer>點選假名或詞彙可以聽發音 (需瀏覽器支援語音朗讀)</footer>
+
+<script>
+  var HIRAGANA = [
+    ["あ","a"],["い","i"],["う","u"],["え","e"],["お","o"],
+    ["か","ka"],["き","ki"],["く","ku"],["け","ke"],["こ","ko"],
+    ["さ","sa"],["し","shi"],["す","su"],["せ","se"],["そ","so"],
+    ["た","ta"],["ち","chi"],["つ","tsu"],["て","te"],["と","to"],
+    ["な","na"],["に","ni"],["ぬ","nu"],["ね","ne"],["の","no"],
+    ["は","ha"],["ひ","hi"],["ふ","fu"],["へ","he"],["ほ","ho"],
+    ["ま","ma"],["み","mi"],["む","mu"],["め","me"],["も","mo"],
+    ["や","ya"],["",""],["ゆ","yu"],["",""],["よ","yo"],
+    ["ら","ra"],["り","ri"],["る","ru"],["れ","re"],["ろ","ro"],
+    ["わ","wa"],["",""],["を","wo"],["",""],["ん","n"]
+  ];
+
+  var KATAKANA = [
+    ["ア","a"],["イ","i"],["ウ","u"],["エ","e"],["オ","o"],
+    ["カ","ka"],["キ","ki"],["ク","ku"],["ケ","ke"],["コ","ko"],
+    ["サ","sa"],["シ","shi"],["ス","su"],["セ","se"],["ソ","so"],
+    ["タ","ta"],["チ","chi"],["ツ","tsu"],["テ","te"],["ト","to"],
+    ["ナ","na"],["ニ","ni"],["ヌ","nu"],["ネ","ne"],["ノ","no"],
+    ["ハ","ha"],["ヒ","hi"],["フ","fu"],["ヘ","he"],["ホ","ho"],
+    ["マ","ma"],["ミ","mi"],["ム","mu"],["メ","me"],["モ","mo"],
+    ["ヤ","ya"],["",""],["ユ","yu"],["",""],["ヨ","yo"],
+    ["ラ","ra"],["リ","ri"],["ル","ru"],["レ","re"],["ロ","ro"],
+    ["ワ","wa"],["",""],["ヲ","wo"],["",""],["ン","n"]
+  ];
+
+  var VOCAB = [
+    ["おはよう", "ohayou", "早安"],
+    ["こんにちは", "konnichiwa", "午安, 你好"],
+    ["こんばんは", "konbanwa", "晚安 (見面時)"],
+    ["おやすみ", "oyasumi", "晚安 (睡前)"],
+    ["ありがとう", "arigatou", "謝謝"],
+    ["ごめんね", "gomen ne", "對不起"],
+    ["いただきます", "itadakimasu", "開動了"],
+    ["ごちそうさま", "gochisousama", "吃飽了, 謝謝招待"],
+    ["さようなら", "sayounara", "再見"],
+    ["だいすき", "daisuki", "最喜歡"]
+  ];
+
+  function speak(text) {
+    if (!window.speechSynthesis) return;
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "ja-JP";
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utter);
+  }
+
+  function buildKanaGrid(containerId, data) {
+    var el = document.getElementById(containerId);
+    data.forEach(function (item) {
+      var cell = document.createElement("div");
+      if (!item[0]) {
+        cell.className = "kana-cell empty";
+        el.appendChild(cell);
+        return;
+      }
+      cell.className = "kana-cell";
+      cell.innerHTML = '<span class="kana">' + item[0] + '</span><span class="romaji">' + item[1] + '</span>';
+      cell.addEventListener("click", function () { speak(item[0]); });
+      el.appendChild(cell);
+    });
+  }
+
+  function buildVocabList() {
+    var el = document.getElementById("vocab-list");
+    VOCAB.forEach(function (item) {
+      var row = document.createElement("div");
+      row.className = "vocab-item";
+      row.innerHTML =
+        '<div>' +
+          '<div class="jp">' + item[0] + '</div>' +
+          '<div class="romaji">' + item[1] + '</div>' +
+        '</div>' +
+        '<div class="zh">' + item[2] + '</div>' +
+        '<button class="speak-btn">發音</button>';
+      row.querySelector(".speak-btn").addEventListener("click", function () { speak(item[0]); });
+      el.appendChild(row);
+    });
+  }
+
+  function setupNav() {
+    var buttons = document.querySelectorAll("#nav button");
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        buttons.forEach(function (b) { b.classList.remove("active"); });
+        document.querySelectorAll("main section").forEach(function (s) { s.classList.remove("active"); });
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.target).classList.add("active");
+      });
+    });
+  }
+
+  var quizPool = HIRAGANA.filter(function (item) { return item[0]; });
+  var quizState = { answer: null, correct: 0, total: 0 };
+
+  function shuffle(arr) {
+    var copy = arr.slice();
+    for (var i = copy.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = copy[i]; copy[i] = copy[j]; copy[j] = t;
+    }
+    return copy;
+  }
+
+  function nextQuiz() {
+    var question = quizPool[Math.floor(Math.random() * quizPool.length)];
+    quizState.answer = question;
+    document.getElementById("quiz-kana").textContent = question[0];
+    document.getElementById("quiz-status").textContent = "";
+
+    var wrongChoices = shuffle(quizPool.filter(function (item) { return item[1] !== question[1]; })).slice(0, 3);
+    var options = shuffle([question].concat(wrongChoices));
+
+    var optionsEl = document.getElementById("quiz-options");
+    optionsEl.innerHTML = "";
+    options.forEach(function (opt) {
+      var btn = document.createElement("button");
+      btn.textContent = opt[1];
+      btn.addEventListener("click", function () { checkAnswer(opt, btn); });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function checkAnswer(chosen, btn) {
+    var buttons = document.querySelectorAll("#quiz-options button");
+    buttons.forEach(function (b) { b.disabled = true; });
+    quizState.total += 1;
+
+    if (chosen[1] === quizState.answer[1]) {
+      quizState.correct += 1;
+      btn.classList.add("correct");
+      document.getElementById("quiz-status").textContent = "答對了";
+    } else {
+      btn.classList.add("wrong");
+      document.getElementById("quiz-status").textContent = "答錯了, 正確答案是 " + quizState.answer[1];
+      buttons.forEach(function (b) {
+        if (b.textContent === quizState.answer[1]) b.classList.add("correct");
+      });
+    }
+
+    document.getElementById("quiz-score").textContent =
+      "答對 " + quizState.correct + " 題 / 共作答 " + quizState.total + " 題";
+
+    setTimeout(nextQuiz, 1200);
+  }
+
+  buildKanaGrid("hiragana-grid", HIRAGANA);
+  buildKanaGrid("katakana-grid", KATAKANA);
+  buildVocabList();
+  setupNav();
+  nextQuiz();
+</script>
