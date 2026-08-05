@@ -2,94 +2,192 @@
 <title>日文學習教室</title>
 <style>
   :root {
-    --bg: #fdf8f2;
+    --bg-1: #fff3e6;
+    --bg-2: #ffe3f1;
+    --bg-3: #e3f4ff;
     --panel: #ffffff;
-    --ink: #2b2420;
-    --muted: #7a6f63;
-    --accent: #c8564f;
-    --accent-soft: #f2d9d6;
-    --line: #e6ddd2;
+    --ink: #5b4636;
+    --muted: #a68b78;
+    --pink: #ff8fab;
+    --pink-soft: #ffe0eb;
+    --blue: #5aa9e6;
+    --blue-soft: #dcefff;
+    --yellow: #ffb703;
+    --yellow-soft: #fff2d1;
+    --purple: #a06cd5;
+    --purple-soft: #efe1fb;
+    --green: #59a96a;
+    --green-soft: #e2f4e4;
+    --line: #ffd9e6;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: "Yu Gothic", "Microsoft JhengHei", "PingFang TC", sans-serif;
-    background: var(--bg);
+    font-family: "Comic Sans MS", "Chalkboard SE", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    background: linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+    background-attachment: fixed;
     color: var(--ink);
-    line-height: 1.6;
+    line-height: 1.7;
+    position: relative;
+    overflow-x: hidden;
   }
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(2px);
+    opacity: 0.5;
+    z-index: -1;
+  }
+  body::before {
+    width: 220px;
+    height: 220px;
+    background: var(--yellow-soft);
+    top: -60px;
+    right: -60px;
+  }
+  body::after {
+    width: 260px;
+    height: 260px;
+    background: var(--blue-soft);
+    bottom: -80px;
+    left: -80px;
+  }
+  .cloud {
+    position: fixed;
+    background: #ffffff;
+    opacity: 0.7;
+    border-radius: 50px;
+    z-index: -1;
+  }
+  .cloud::before,
+  .cloud::after {
+    content: "";
+    position: absolute;
+    background: #ffffff;
+    border-radius: 50%;
+  }
+  .cloud-a {
+    width: 90px; height: 34px;
+    top: 90px; left: 6%;
+  }
+  .cloud-a::before { width: 46px; height: 46px; top: -22px; left: 8px; }
+  .cloud-a::after { width: 34px; height: 34px; top: -16px; left: 44px; }
+  .cloud-b {
+    width: 70px; height: 26px;
+    top: 220px; right: 8%;
+  }
+  .cloud-b::before { width: 36px; height: 36px; top: -18px; left: 6px; }
+  .cloud-b::after { width: 26px; height: 26px; top: -12px; left: 36px; }
+
   header {
-    padding: 40px 20px 24px;
+    padding: 44px 20px 20px;
     text-align: center;
-    border-bottom: 1px solid var(--line);
+  }
+  .mascot {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 6px;
+    display: block;
+    animation: bob 3s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
   }
   header h1 {
-    font-size: 2rem;
-    margin: 0 0 8px;
-    letter-spacing: 0.05em;
+    font-size: 2.2rem;
+    margin: 4px 0 8px;
+    color: var(--pink);
+    text-shadow: 2px 2px 0 var(--yellow-soft);
+    letter-spacing: 0.06em;
   }
   header p {
     margin: 0;
     color: var(--muted);
+    font-size: 1.05rem;
   }
   nav {
     display: flex;
     justify-content: center;
     gap: 12px;
     flex-wrap: wrap;
-    padding: 16px 20px;
+    padding: 18px 20px;
     position: sticky;
     top: 0;
-    background: var(--bg);
     z-index: 10;
-    border-bottom: 1px solid var(--line);
   }
   nav button {
-    border: 1px solid var(--line);
+    border: 3px solid var(--line);
     background: var(--panel);
     color: var(--ink);
-    padding: 8px 18px;
+    padding: 10px 20px;
     border-radius: 999px;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: bold;
+    box-shadow: 0 4px 0 var(--line);
+    transition: transform 0.12s ease;
+  }
+  nav button:hover {
+    transform: translateY(-2px);
+  }
+  nav button:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 var(--line);
   }
   nav button.active {
-    background: var(--accent);
+    background: var(--pink);
     color: #fff;
-    border-color: var(--accent);
+    border-color: var(--pink);
+    box-shadow: 0 4px 0 #d9648a;
   }
   main {
     max-width: 960px;
     margin: 0 auto;
-    padding: 32px 20px 80px;
+    padding: 20px 20px 90px;
+    position: relative;
+    z-index: 1;
   }
   section {
     display: none;
   }
   section.active {
     display: block;
+    animation: pop-in 0.3s ease;
+  }
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
   }
   h2 {
-    font-size: 1.3rem;
-    border-left: 4px solid var(--accent);
-    padding-left: 10px;
-    margin-bottom: 20px;
+    font-size: 1.4rem;
+    display: inline-block;
+    background: var(--yellow-soft);
+    border-radius: 999px;
+    padding: 6px 22px;
+    margin-bottom: 22px;
+    color: #a5730a;
   }
   .kana-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 12px;
   }
   .kana-cell {
     background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 14px 6px;
+    border: 3px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 6px;
     text-align: center;
     cursor: pointer;
+    box-shadow: 0 4px 0 var(--line);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
   .kana-cell .kana {
-    font-size: 1.8rem;
+    font-size: 1.9rem;
     display: block;
   }
   .kana-cell .romaji {
@@ -97,29 +195,38 @@
     color: var(--muted);
     display: block;
     margin-top: 4px;
+    font-weight: bold;
   }
   .kana-cell.empty {
     visibility: hidden;
   }
   .kana-cell:hover {
-    border-color: var(--accent);
+    transform: translateY(-4px) rotate(-1deg);
+    border-color: var(--pink);
+    box-shadow: 0 6px 0 var(--pink-soft);
+  }
+  .kana-cell:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 0 var(--line);
   }
   .vocab-list {
     display: grid;
-    gap: 10px;
+    gap: 12px;
   }
   .vocab-item {
     background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 14px 16px;
+    border: 3px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    box-shadow: 0 4px 0 var(--line);
   }
   .vocab-item .jp {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    color: var(--purple);
   }
   .vocab-item .romaji {
     color: var(--muted);
@@ -127,90 +234,161 @@
   }
   .vocab-item .zh {
     color: var(--muted);
+    font-weight: bold;
   }
   .speak-btn {
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    background: #fff;
+    border: none;
+    color: #fff;
+    background: var(--blue);
     border-radius: 999px;
-    padding: 6px 14px;
+    padding: 8px 16px;
     cursor: pointer;
     font-size: 0.85rem;
+    font-family: inherit;
+    font-weight: bold;
     flex-shrink: 0;
+    box-shadow: 0 3px 0 #3c7fb8;
   }
   .speak-btn:hover {
-    background: var(--accent-soft);
+    filter: brightness(1.05);
+  }
+  .speak-btn:active {
+    transform: translateY(2px);
+    box-shadow: none;
   }
   .quiz-box {
     background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 32px;
+    border: 3px solid var(--line);
+    border-radius: 24px;
+    padding: 36px 24px;
     text-align: center;
+    box-shadow: 0 6px 0 var(--line);
   }
   .quiz-kana {
-    font-size: 4rem;
-    margin: 10px 0 24px;
+    font-size: 4.5rem;
+    margin: 6px 0 26px;
+    color: var(--purple);
+    transition: transform 0.2s ease;
+  }
+  .quiz-kana.bump {
+    animation: bump 0.35s ease;
+  }
+  @keyframes bump {
+    0% { transform: scale(0.7) rotate(-6deg); }
+    60% { transform: scale(1.1) rotate(3deg); }
+    100% { transform: scale(1) rotate(0); }
   }
   .quiz-options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 14px;
     max-width: 420px;
     margin: 0 auto;
   }
   .quiz-options button {
-    padding: 14px;
-    font-size: 1.1rem;
-    border-radius: 10px;
-    border: 1px solid var(--line);
+    padding: 16px;
+    font-size: 1.15rem;
+    font-family: inherit;
+    font-weight: bold;
+    border-radius: 14px;
+    border: 3px solid var(--line);
     background: #fff;
     cursor: pointer;
+    box-shadow: 0 4px 0 var(--line);
+    transition: transform 0.1s ease;
   }
-  .quiz-options button:hover {
-    border-color: var(--accent);
+  .quiz-options button:hover:not(:disabled) {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+  }
+  .quiz-options button:disabled {
+    cursor: default;
   }
   .quiz-options button.correct {
-    background: #dcefdc;
-    border-color: #6fae6f;
+    background: var(--green-soft);
+    border-color: var(--green);
+    box-shadow: 0 4px 0 var(--green);
+    animation: bump 0.35s ease;
   }
   .quiz-options button.wrong {
-    background: #f6dcdb;
-    border-color: var(--accent);
+    background: var(--pink-soft);
+    border-color: var(--pink);
+    box-shadow: 0 4px 0 var(--pink);
+    animation: shake 0.35s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
   }
   .quiz-status {
-    margin-top: 20px;
-    color: var(--muted);
-    font-size: 0.95rem;
+    margin-top: 22px;
+    color: var(--purple);
+    font-size: 1.05rem;
+    font-weight: bold;
     min-height: 1.4em;
   }
   .quiz-score {
-    margin-top: 10px;
+    margin-top: 12px;
+    display: inline-block;
     font-size: 0.9rem;
-    color: var(--muted);
+    color: #a5730a;
+    background: var(--yellow-soft);
+    border-radius: 999px;
+    padding: 6px 18px;
   }
   footer {
     text-align: center;
     color: var(--muted);
     font-size: 0.85rem;
     padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 480px) {
+    .kana-grid { grid-template-columns: repeat(4, 1fr); }
+    .kana-cell .kana { font-size: 1.6rem; }
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1e1b18;
-      --panel: #2a2520;
-      --ink: #f1e9df;
-      --muted: #a89a8a;
-      --accent: #e08078;
-      --accent-soft: #4a2f2c;
-      --line: #3d362f;
+      --bg-1: #2a2035;
+      --bg-2: #201a2b;
+      --bg-3: #241d33;
+      --panel: #2f2740;
+      --ink: #f3ece0;
+      --muted: #b6a8c2;
+      --line: #443a58;
+      --pink-soft: #4a3348;
+      --blue-soft: #2c3a4d;
+      --yellow-soft: #4a3d24;
+      --purple-soft: #392c4d;
+      --green-soft: #2c3f30;
     }
-    .vocab-item .zh, .vocab-item .romaji { color: var(--muted); }
-    .speak-btn { background: transparent; }
+    body::before, body::after { opacity: 0.25; }
+    .cloud, .cloud::before, .cloud::after { background: #372c48; opacity: 0.4; }
+    header h1 { text-shadow: 2px 2px 0 #4a3d24; }
+    .quiz-score { color: #f0d38a; }
+    h2 { color: #f0d38a; }
   }
 </style>
 
+<div class="cloud cloud-a"></div>
+<div class="cloud cloud-b"></div>
+
 <header>
+  <svg class="mascot" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="50" cy="58" rx="34" ry="30" fill="#ffb37a"/>
+    <path d="M20 40 L8 12 L38 30 Z" fill="#ffb37a"/>
+    <path d="M80 40 L92 12 L62 30 Z" fill="#ffb37a"/>
+    <path d="M22 36 L14 20 L34 30 Z" fill="#fff3e6"/>
+    <path d="M78 36 L86 20 L66 30 Z" fill="#fff3e6"/>
+    <ellipse cx="50" cy="64" rx="18" ry="14" fill="#fff3e6"/>
+    <circle cx="38" cy="54" r="4.5" fill="#5b4636"/>
+    <circle cx="62" cy="54" r="4.5" fill="#5b4636"/>
+    <circle cx="30" cy="60" r="5" fill="#ff8fab" opacity="0.7"/>
+    <circle cx="70" cy="60" r="5" fill="#ff8fab" opacity="0.7"/>
+    <path d="M45 64 Q50 70 55 64" stroke="#5b4636" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </svg>
   <h1>日文學習教室</h1>
   <p>從五十音開始, 一步一步認識日文</p>
 </header>
@@ -244,12 +422,12 @@
       <div class="quiz-kana" id="quiz-kana">あ</div>
       <div class="quiz-options" id="quiz-options"></div>
       <div class="quiz-status" id="quiz-status"></div>
-      <div class="quiz-score" id="quiz-score">答對 0 題 / 共作答 0 題</div>
+      <div class="quiz-score" id="quiz-score">答對 0 題, 共作答 0 題</div>
     </div>
   </section>
 </main>
 
-<footer>點選假名或詞彙可以聽發音 (需瀏覽器支援語音朗讀)</footer>
+<footer>點選假名或詞彙可以聽發音, 需瀏覽器支援語音朗讀</footer>
 
 <script>
   var HIRAGANA = [
@@ -281,8 +459,8 @@
   var VOCAB = [
     ["おはよう", "ohayou", "早安"],
     ["こんにちは", "konnichiwa", "午安, 你好"],
-    ["こんばんは", "konbanwa", "晚安 (見面時)"],
-    ["おやすみ", "oyasumi", "晚安 (睡前)"],
+    ["こんばんは", "konbanwa", "晚安, 見面時"],
+    ["おやすみ", "oyasumi", "晚安, 睡前"],
     ["ありがとう", "arigatou", "謝謝"],
     ["ごめんね", "gomen ne", "對不起"],
     ["いただきます", "itadakimasu", "開動了"],
@@ -359,7 +537,11 @@
   function nextQuiz() {
     var question = quizPool[Math.floor(Math.random() * quizPool.length)];
     quizState.answer = question;
-    document.getElementById("quiz-kana").textContent = question[0];
+    var kanaEl = document.getElementById("quiz-kana");
+    kanaEl.textContent = question[0];
+    kanaEl.classList.remove("bump");
+    void kanaEl.offsetWidth;
+    kanaEl.classList.add("bump");
     document.getElementById("quiz-status").textContent = "";
 
     var wrongChoices = shuffle(quizPool.filter(function (item) { return item[1] !== question[1]; })).slice(0, 3);
@@ -383,7 +565,7 @@
     if (chosen[1] === quizState.answer[1]) {
       quizState.correct += 1;
       btn.classList.add("correct");
-      document.getElementById("quiz-status").textContent = "答對了";
+      document.getElementById("quiz-status").textContent = "答對了, 好棒";
     } else {
       btn.classList.add("wrong");
       document.getElementById("quiz-status").textContent = "答錯了, 正確答案是 " + quizState.answer[1];
@@ -393,7 +575,7 @@
     }
 
     document.getElementById("quiz-score").textContent =
-      "答對 " + quizState.correct + " 題 / 共作答 " + quizState.total + " 題";
+      "答對 " + quizState.correct + " 題, 共作答 " + quizState.total + " 題";
 
     setTimeout(nextQuiz, 1200);
   }
