@@ -73,6 +73,29 @@
     font-size:15px;
   }
 
+  /* ---------- Daily lesson card ---------- */
+  .daily-card{
+    border:none; cursor:pointer; text-align:left; width:100%;
+    border-radius: var(--radius-lg);
+    padding:16px 18px 14px;
+    margin-bottom:14px;
+    background: linear-gradient(135deg, var(--sun), var(--peach));
+    color:#fff;
+    box-shadow: 0 8px 0 rgba(230,126,82,0.4);
+    transition: transform .12s ease;
+  }
+  .daily-card:active{ transform: scale(0.97); }
+  .daily-card .badge-row{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+  .daily-card h2{margin:0; font-family:'Kosugi Maru',sans-serif; font-size:18px;}
+  .daily-card .date{font-size:12px; opacity:0.9; margin-top:2px;}
+  .daily-card .sun-icon{font-size:30px; flex-shrink:0;}
+  .daily-card .preview{display:flex; gap:8px; margin-top:12px; font-size:26px;}
+  .daily-card .status{
+    margin-top:12px; display:inline-block; font-size:12.5px; font-weight:800;
+    background:rgba(255,255,255,0.28); padding:5px 14px; border-radius:999px;
+  }
+  .daily-card.done{ background: linear-gradient(135deg, var(--matcha), var(--matcha-dark)); box-shadow: 0 8px 0 rgba(92,128,69,0.4); }
+
   /* ---------- Bento grid (home) ---------- */
   .bento{
     display:grid;
@@ -235,6 +258,18 @@
       <div class="star-badge">⭐ <span id="starCount" class="num">0</span></div>
     </header>
 
+    <button class="daily-card" id="dailyCard" onclick="openDaily()">
+      <div class="badge-row">
+        <div>
+          <h2 class="jp">きょうの べんきょう</h2>
+          <div class="date" id="dailyDate"></div>
+        </div>
+        <span class="sun-icon">☀️</span>
+      </div>
+      <div class="preview" id="dailyPreview"></div>
+      <div class="status" id="dailyStatus"></div>
+    </button>
+
     <nav class="bento" id="bentoGrid"></nav>
 
     <div class="install-tip">
@@ -256,6 +291,18 @@
       <span>聽力小遊戲：考考我！</span>
     </button>
     <div class="cardgrid" id="cardGrid"></div>
+  </div>
+
+  <!-- DAILY LESSON -->
+  <div class="page" id="daily">
+    <div class="backbar">
+      <button class="back-btn" onclick="goHome()">←</button>
+      <div>
+        <h2 class="page-title jp">きょうの べんきょう</h2>
+        <span class="page-title zh" id="dailyPageDate"></span>
+      </div>
+    </div>
+    <div class="cardgrid" id="dailyCardGrid"></div>
   </div>
 
 </div>
@@ -399,6 +446,10 @@ const CATEGORIES = [
     ]},
 ];
 
+/* ---------------- Daily lesson pool (words with meaning, kana charts excluded) ---------------- */
+const DAILY_POOL = CATEGORIES.filter(c=> c.type !== 'kana').flatMap(c=> c.items);
+const DAILY_COUNT = 6;
+
 /* ---------------- State ---------------- */
 let stars = 0;
 let currentCategory = null;
@@ -477,6 +528,28 @@ function renderHome(){
   });
 }
 
+function makeWordCard(item, isKana){
+  const card = document.createElement('div');
+  card.className = 'word-card';
+  card.innerHTML = isKana ? `
+    <span class="kana-char jp">${item.jp}</span>
+    <div class="romaji">${item.romaji}</div>
+    <div class="speaker">🔊</div>
+  ` : `
+    <span class="emoji">${item.emoji}</span>
+    <div class="jpword jp">${item.jp}</div>
+    <div class="romaji">${item.romaji}</div>
+    <div class="zhword">${item.zh}</div>
+    <div class="speaker">🔊 點我聽聽看</div>
+  `;
+  card.onclick = ()=>{
+    document.querySelectorAll('.word-card.playing').forEach(c=>c.classList.remove('playing'));
+    card.classList.add('playing');
+    speak(item.jp, ()=> card.classList.remove('playing'));
+  };
+  return card;
+}
+
 function openCategory(id){
   currentCategory = CATEGORIES.find(c=>c.id===id);
   document.getElementById('detailTitleJp').textContent = currentCategory.emoji + ' ' + currentCategory.jp;
@@ -485,33 +558,79 @@ function openCategory(id){
   grid.innerHTML = '';
   grid.classList.toggle('kana-grid', currentCategory.type === 'kana');
   currentCategory.items.forEach(item=>{
-    const card = document.createElement('div');
-    card.className = 'word-card';
-    card.innerHTML = (currentCategory.type === 'kana') ? `
-      <span class="kana-char jp">${item.jp}</span>
-      <div class="romaji">${item.romaji}</div>
-      <div class="speaker">🔊</div>
-    ` : `
-      <span class="emoji">${item.emoji}</span>
-      <div class="jpword jp">${item.jp}</div>
-      <div class="romaji">${item.romaji}</div>
-      <div class="zhword">${item.zh}</div>
-      <div class="speaker">🔊 點我聽聽看</div>
-    `;
-    card.onclick = ()=>{
-      document.querySelectorAll('.word-card.playing').forEach(c=>c.classList.remove('playing'));
-      card.classList.add('playing');
-      speak(item.jp, ()=> card.classList.remove('playing'));
-    };
-    grid.appendChild(card);
+    grid.appendChild(makeWordCard(item, currentCategory.type === 'kana'));
   });
-  document.getElementById('home').classList.remove('active');
+  document.querySelectorAll('.page').forEach(p=> p.classList.remove('active'));
   document.getElementById('detail').classList.add('active');
 }
 
 function goHome(){
-  document.getElementById('detail').classList.remove('active');
+  document.querySelectorAll('.page').forEach(p=> p.classList.remove('active'));
   document.getElementById('home').classList.add('active');
+  renderDailyCard();
+}
+
+/* ---------------- Daily lesson ---------------- */
+function todayKey(){
+  const d = new Date();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${d.getFullYear()}-${m}-${day}`;
+}
+function todayLabel(){
+  const d = new Date();
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
+function hashString(str){
+  let h = 0;
+  for(let i=0;i<str.length;i++){ h = (h*31 + str.charCodeAt(i)) >>> 0; }
+  return h;
+}
+function mulberry32(seed){
+  return function(){
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t>>>15, t | 1);
+    t ^= t + Math.imul(t ^ t>>>7, t | 61);
+    return ((t ^ t>>>14) >>> 0) / 4294967296;
+  };
+}
+function seededShuffle(arr, rng){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(rng()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function getDailyWords(){
+  const rng = mulberry32(hashString(todayKey()));
+  return seededShuffle(DAILY_POOL, rng).slice(0, DAILY_COUNT);
+}
+function isDailyDone(){
+  try{ return !!window.localStorage.getItem('jp-app:daily:'+todayKey()); }
+  catch(e){ return false; }
+}
+function renderDailyCard(){
+  document.getElementById('dailyDate').textContent = todayLabel();
+  const preview = getDailyWords().slice(0,4).map(i=> `<span>${i.emoji || i.jp}</span>`).join('');
+  document.getElementById('dailyPreview').innerHTML = preview;
+  const done = isDailyDone();
+  document.getElementById('dailyStatus').textContent = done ? '已完成 今天再複習一次也可以' : '開始今日課程';
+  document.getElementById('dailyCard').classList.toggle('done', done);
+}
+function openDaily(){
+  document.getElementById('dailyPageDate').textContent = todayLabel() + ' 的每日課程';
+  const grid = document.getElementById('dailyCardGrid');
+  grid.innerHTML = '';
+  getDailyWords().forEach(item=> grid.appendChild(makeWordCard(item, false)));
+  document.querySelectorAll('.page').forEach(p=> p.classList.remove('active'));
+  document.getElementById('daily').classList.add('active');
+  if(!isDailyDone()){
+    try{ window.localStorage.setItem('jp-app:daily:'+todayKey(), '1'); }catch(e){}
+    addStars(1);
+    showBubble('今日課程完成 得到一顆星星');
+  }
+  renderDailyCard();
 }
 
 /* ---------------- Quiz ---------------- */
@@ -610,6 +729,7 @@ function finishQuiz(){
 /* ---------------- Init ---------------- */
 renderHome();
 loadStars();
+renderDailyCard();
 </script>
 </body>
 </html>
