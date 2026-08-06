@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="にほんご">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#FFF8ED">
-<title>にほんご べんきょう｜寶貝的日語教室</title>
+<title>にほんご べんきょう｜日語教室</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
@@ -131,6 +131,8 @@
   .c-lav{background: linear-gradient(160deg, #E7DBFF, #CBB2F7);}
   .c-teal{background: linear-gradient(160deg, #C9EEE3, #93D6C4);}
   .c-caramel{background: linear-gradient(160deg, #F3DDB2, #E4BC7C);}
+  .c-denim{background: linear-gradient(160deg, #CFE0FA, #9FC1EE);}
+  .c-leaf{background: linear-gradient(160deg, #E3F0C9, #C7DE93);}
 
   /* ---------- Detail page ---------- */
   .page{display:none;}
@@ -253,7 +255,7 @@
       </svg>
       <div class="title-block">
         <h1 class="jp">にほんご べんきょう</h1>
-        <p>幼稚園寶貝的日語練習教室</p>
+        <p>日語練習教室</p>
       </div>
       <div class="star-badge">⭐ <span id="starCount" class="num">0</span></div>
     </header>
@@ -443,6 +445,32 @@ const CATEGORIES = [
       {jp:'おにいさん', romaji:'onīsan', zh:'哥哥', emoji:'🧑'},
       {jp:'おねえさん', romaji:'onēsan', zh:'姊姊', emoji:'👧'},
       {jp:'あかちゃん', romaji:'akachan', zh:'小寶寶', emoji:'👶'},
+    ]},
+  { id:'vehicle', jp:'のりもの', zh:'交通工具', emoji:'🚗', color:'c-denim',
+    items:[
+      {jp:'くるま', romaji:'kuruma', zh:'車子', emoji:'🚗'},
+      {jp:'でんしゃ', romaji:'densha', zh:'電車', emoji:'🚃'},
+      {jp:'バス', romaji:'basu', zh:'公車', emoji:'🚌'},
+      {jp:'ひこうき', romaji:'hikōki', zh:'飛機', emoji:'✈️'},
+      {jp:'ふね', romaji:'fune', zh:'船', emoji:'🚢'},
+      {jp:'じてんしゃ', romaji:'jitensha', zh:'腳踏車', emoji:'🚲'},
+      {jp:'しんかんせん', romaji:'shinkansen', zh:'新幹線', emoji:'🚄'},
+      {jp:'きゅうきゅうしゃ', romaji:'kyūkyūsha', zh:'救護車', emoji:'🚑'},
+      {jp:'しょうぼうしゃ', romaji:'shōbōsha', zh:'消防車', emoji:'🚒'},
+    ]},
+  { id:'nature', jp:'しぜん', zh:'大自然', emoji:'🌳', color:'c-leaf',
+    items:[
+      {jp:'たいよう', romaji:'taiyō', zh:'太陽', emoji:'☀️'},
+      {jp:'くも', romaji:'kumo', zh:'雲朵', emoji:'☁️'},
+      {jp:'そら', romaji:'sora', zh:'天空', emoji:'🌤️'},
+      {jp:'つき', romaji:'tsuki', zh:'月亮', emoji:'🌙'},
+      {jp:'ほし', romaji:'hoshi', zh:'星星', emoji:'⭐'},
+      {jp:'き', romaji:'ki', zh:'樹', emoji:'🌳'},
+      {jp:'はっぱ', romaji:'happa', zh:'葉子', emoji:'🍃'},
+      {jp:'はな', romaji:'hana', zh:'花', emoji:'🌸'},
+      {jp:'あめ', romaji:'ame', zh:'雨', emoji:'🌧️'},
+      {jp:'やま', romaji:'yama', zh:'山', emoji:'⛰️'},
+      {jp:'うみ', romaji:'umi', zh:'海', emoji:'🌊'},
     ]},
 ];
 
