@@ -2,12 +2,14 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="にほんご">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#FFF8ED">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
 <title>にほんご べんきょう｜日語教室</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -354,6 +356,26 @@ const CATEGORIES = [
       {jp:'ラ',romaji:'ra'},{jp:'リ',romaji:'ri'},{jp:'ル',romaji:'ru'},{jp:'レ',romaji:'re'},{jp:'ロ',romaji:'ro'},
       {jp:'ワ',romaji:'wa'},{jp:'ヲ',romaji:'wo'},{jp:'ン',romaji:'n'},
     ]},
+  { id:'school', jp:'ようちえんで ならった', zh:'幼兒園學的：「お」「か」開頭的單字', emoji:'🌱', color:'c-leaf', big:true,
+    items:[
+      {jp:'おにぎり', romaji:'onigiri', zh:'飯糰', emoji:'🍙'},
+      {jp:'おくら', romaji:'okura', zh:'秋葵', emoji:'🫛'},
+      {jp:'おんぷ', romaji:'onpu', zh:'音符', emoji:'🎵'},
+      {jp:'かえる', romaji:'kaeru', zh:'青蛙', emoji:'🐸'},
+      {jp:'かめ', romaji:'kame', zh:'烏龜', emoji:'🐢'},
+      {jp:'かき', romaji:'kaki', zh:'柿子', emoji:'🟠'},
+    ]},
+  { id:'shichigosan', jp:'しちごさん', zh:'七五三：慶祝孩子成長的節日', emoji:'⛩️', color:'c-pink', big:true,
+    items:[
+      {jp:'しちごさん', romaji:'shichigosan', zh:'七五三（11月15日）', emoji:'🎊'},
+      {jp:'じんじゃ', romaji:'jinja', zh:'神社', emoji:'⛩️'},
+      {jp:'おてら', romaji:'otera', zh:'寺廟', emoji:'🛕'},
+      {jp:'おまいり', romaji:'omairi', zh:'參拜', emoji:'🙏'},
+      {jp:'きもの', romaji:'kimono', zh:'和服', emoji:'👘'},
+      {jp:'ちとせあめ', romaji:'chitose ame', zh:'千歲糖', emoji:'🍭'},
+      {jp:'しゃしん', romaji:'shashin', zh:'照片', emoji:'📸'},
+      {jp:'げんきに おおきく なりますように', romaji:'genki ni ōkiku narimasu yō ni', zh:'祝福健康快樂地長大', emoji:'🌈'},
+    ]},
   { id:'greet', jp:'あいさつ', zh:'打招呼', emoji:'👋', color:'c-sun', big:true,
     items:[
       {jp:'おはよう', romaji:'ohayō', zh:'早安', emoji:'☀️'},
@@ -367,7 +389,7 @@ const CATEGORIES = [
     ]},
   { id:'phrase', jp:'よくつかう ことば', zh:'常用短句', emoji:'💬', color:'c-lav', big:true,
     items:[
-      {jp:'トイレ行きたい', romaji:'toire ikitai', zh:'我要上廁所', emoji:'🚽'},
+      {jp:'トイレに いきたい', romaji:'toire ni ikitai', zh:'我要上廁所', emoji:'🚽'},
       {jp:'おなかすいた', romaji:'onaka suita', zh:'肚子餓了', emoji:'😋'},
       {jp:'のどかわいた', romaji:'nodo kawaita', zh:'口渴了', emoji:'🥤'},
       {jp:'ねむい', romaji:'nemui', zh:'想睡覺了', emoji:'😪'},
@@ -388,7 +410,7 @@ const CATEGORIES = [
       {jp:'ぞう', romaji:'zō', zh:'大象', emoji:'🐘'},
       {jp:'きりん', romaji:'kirin', zh:'長頸鹿', emoji:'🦒'},
       {jp:'さる', romaji:'saru', zh:'猴子', emoji:'🐵'},
-      {jp:'ぱんだ', romaji:'panda', zh:'貓熊', emoji:'🐼'},
+      {jp:'パンダ', romaji:'panda', zh:'貓熊', emoji:'🐼'},
     ]},
   { id:'color', jp:'いろ', zh:'顏色', emoji:'🌈', color:'c-sky',
     items:[
@@ -434,7 +456,7 @@ const CATEGORIES = [
       {jp:'みみ', romaji:'mimi', zh:'耳朵', emoji:'👂'},
       {jp:'て', romaji:'te', zh:'手', emoji:'🖐️'},
       {jp:'あし', romaji:'ashi', zh:'腳', emoji:'🦶'},
-      {jp:'おなか', romaji:'onaka', zh:'肚子', emoji:'🫃'},
+      {jp:'おなか', romaji:'onaka', zh:'肚子', emoji:'😋'},
     ]},
   { id:'family', jp:'かぞく', zh:'家人', emoji:'👪', color:'c-matcha', big:true,
     items:[
@@ -475,7 +497,8 @@ const CATEGORIES = [
 ];
 
 /* ---------------- Daily lesson pool (words with meaning, kana charts excluded) ---------------- */
-const DAILY_POOL = CATEGORIES.filter(c=> c.type !== 'kana').flatMap(c=> c.items);
+const DAILY_POOL = CATEGORIES.filter(c=> c.type !== 'kana').flatMap(c=> c.items)
+  .filter((item, i, all)=> all.findIndex(o=> o.jp === item.jp) === i); // skip duplicates (e.g. おにぎり)
 const DAILY_COUNT = 6;
 
 /* ---------------- State ---------------- */
@@ -485,6 +508,7 @@ let quizPool = [];
 let quizIndex = 0;
 let quizCorrect = 0;
 const QUIZ_LEN = 5;
+let quizTimer = null;
 
 /* ---------------- Storage (persists in this browser via localStorage) ---------------- */
 function loadStars(){
@@ -675,6 +699,7 @@ function startQuiz(){
   if(!currentCategory || currentCategory.items.length < 3) return;
   const len = Math.min(QUIZ_LEN, currentCategory.items.length);
   quizPool = shuffle(currentCategory.items).slice(0, len);
+  clearTimeout(quizTimer);
   quizIndex = 0;
   quizCorrect = 0;
   document.getElementById('quizOverlay').classList.add('active');
@@ -682,8 +707,9 @@ function startQuiz(){
 }
 
 function closeQuiz(){
+  clearTimeout(quizTimer);
   document.getElementById('quizOverlay').classList.remove('active');
-  speechSynthesis.cancel();
+  if('speechSynthesis' in window) speechSynthesis.cancel();
 }
 
 function loadQuizQuestion(){
@@ -731,7 +757,7 @@ function answerQuiz(chosen, target, el){
     fb.textContent = `再試試看～ 正確答案是 ${targetDisplay}`;
     fb.className = 'quiz-feedback bad';
   }
-  setTimeout(()=>{
+  quizTimer = setTimeout(()=>{
     quizIndex++;
     if(quizIndex < quizPool.length){
       loadQuizQuestion();
